@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>global.PwdAjaxUserUnlockProcessor</api_name>
+        <caller_access/>
+        <claim/>
+        <client_callable>true</client_callable>
+        <description>Ajax Request handler for workflow related tasks for Password Reset application. </description>
+        <name>PwdAjaxUserUnlockProcessor</name>
+        <script><![CDATA[/*
+ * Class is a Ajax processor which handles password reset workflow related functionality.
+ */
+var PwdAjaxUserUnlockProcessor = Class.create();
+PwdAjaxUserUnlockProcessor.prototype = Object.extendsObject(PWDWFProcessorBase, {
+	
+	BL : new PwdUserUnlockUtil(),
+	
+	// This function makes this AJAX public. By default, all AJAX server side is private.
+	isPublic: function() {
+		return true;
+	},
+	
+	// ---------------------------------------------------------------------------------
+	// ------------- Handle the retrieval of the account lock status : -----------------
+	// ---------------------------------------------------------------------------------
+	
+	
+	// This AJAX function returns the wf status based upon the wf_context table.
+	/* eslint-disable consistent-return */ 
+	pollLockStateFromRequest: function() {
+		if(!this._validateSecurity())
+			return;
+		
+		var requestId = this.getParameter("sysparam_request_id");
+		
+		return this.BL.getLockStateFromRequest(requestId);
+	},
+	/* eslint-enable consistent-return */
+	
+	
+	// This AJAX function starts a workflow that checks the user's lock state.
+	// In case of an exception, will send an error message back to client.
+	initiateGetLockStateWF: function() {
+		if(!this._validateSecurity())
+			return;
+	
+		var requestId = this.getParameter("sysparam_request_id");
+		var userId = this.getParameter("sysparam_sys_user_id");
+		var LOG_ID = "[PwdAjaxUserUnlockProcessor:initiateGetLockStateWF] ";
+		
+		var result = this.BL.startGetLockStateWorkflow(requestId, userId);
+		
+		this._processResult(result, requestId, LOG_ID, this.BL.GET_ACCOUNT_LOCK_STATE_MASTER_WORKFLOW);
+	},
+		
+	// This AJAX function returns the wf status based upon the wf_context table.
+	checkGetLockStateWFState: function() {
+		// check the security before anything else.
+		if(!this._validateSecurity())
+			return;
+		
+		var ctxId = this.getParameter('sysparam_wf_context_sys_id');
+		
+		var flowData = PWDWorkflowHelper.getWorkflowData(ctxId, false);
+		
+		var response = this.newItem("response");
+		response.setAttribute("state", flowData.state);
+		response.setAttribute("result", flowData.result);
+	},
+	
+	// ---------------------------------------------------------------------------------
+	// ------------------------ Handle the account unlocking: --------------------------
+	// ---------------------------------------------------------------------------------
+	
+	// This AJAX function starts a workflow that unlocks the account:
+	initiateUnlockWF: function() {
+		if(!this._validateSecurity())
+			return;
+		
+		var LOG_ID = "[PwdAjaxUserUnlockProcessor:initiateGetLockStateWF] ";
+		var requestId = this.getParameter("sysparam_request_id");
+		var userId = this.getParameter("sysparam_sys_user_id");
+		
+		var result = this.BL.startUnlcokWorkflow(requestId, userId);
+		
+		this._processResult(result, requestId, LOG_ID, this.BL.UNLOCK_ACCOUNT_MASTER_WORKFLOW);
+	},
+	
+	
+	// This AJAX function returns the wf status based upon the wf_context table:
+	checkUnlockWFState: function() {
+		// check the security before anything else.
+		if(!this._validateSecurity())
+			return;
+		
+		var ctxId = this.getParameter("sysparam_wf_context_sys_id");
+		
+		var flowData = PWDWorkflowHelper.getWorkflowData(ctxId);
+		
+		var response = this.newItem("response");
+		response.setAttribute("state", flowData.state);
+		response.setAttribute("result", flowData.result);
+		
+		// If workflow is finished, pass additional workflow results:
+		if (flowData.state.match(/finished/i)) {
+			this.createContextItem(flowData.contextGr);
+			this.createHistoryItems(flowData.historyGr);
+			this._setResponseMessage("success", gs.getMessage("The request has been successfully completed") ,ctxId);
+		}
+	},
+	
+	_processResult: function(result, requestId, logId, wfName) {
+		var errorMsg;
+		
+		if (result == this.BL.STATUS_UNVERIFIED) {
+			errorMsg = gs.getMessage("{0} Could not verify request: {1}", [logId, requestId]);
+			this._setResponseMessage("failure", errorMsg, requestId);
+		}
+		else if (result == this.BL.STATUS_FAILURE) {
+			errorMsg = gs.getMessage("{0} Failed to start workflow: {1}", [logId, wfName]);
+			this._setResponseMessage("failure", errorMsg, requestId);
+		}
+		else {
+			this._setResponseMessage("success", "The request has been successfully completed", result /* ctxId*/);
+		}
+	},
+	
+	type:PwdAjaxUserUnlockProcessor
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2013-11-27 23:22:28</sys_created_on>
+        <sys_id>f8df30b5bf111100c7e39058ff073935</sys_id>
+        <sys_mod_count>50</sys_mod_count>
+        <sys_name>PwdAjaxUserUnlockProcessor</sys_name>
+        <sys_package display_value="GHalo ITSM" source="bd441a2777030010ca3ab5b268106132">bd441a2777030010ca3ab5b268106132</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</sys_scope>
+        <sys_update_name>sys_script_include_f8df30b5bf111100c7e39058ff073935</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:17:12</sys_updated_on>
+    </sys_script_include>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>170794690c80000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_f8df30b5bf111100c7e39058ff073935</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>GHalo ITSM</previous_claim_name>
+        <previous_claim_scope>bd441a2777030010ca3ab5b268106132</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:17:12</sys_created_on>
+        <sys_id>6eb9122b77030010ca3ab5b2681061af</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:17:12</sys_updated_on>
+    </sys_claim>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>1707944c5b90000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_f8df30b5bf111100c7e39058ff073935</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>GHalo HR</previous_claim_name>
+        <previous_claim_scope>85a61e6777030010ca3ab5b268106169</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:17:12</sys_created_on>
+        <sys_id>e2b9122b77030010ca3ab5b2681061b0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:17:12</sys_updated_on>
+    </sys_claim>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>1707944c5ae0000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_f8df30b5bf111100c7e39058ff073935</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>com.glideapp.password_reset</previous_claim_name>
+        <previous_claim_scope>com.glideapp.password_reset</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:17:12</sys_created_on>
+        <sys_id>22b9122b77030010ca3ab5b2681061b0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:17:12</sys_updated_on>
+    </sys_claim>
+</record_update>
