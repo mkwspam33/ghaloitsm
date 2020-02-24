@@ -87,13 +87,27 @@ PasswordResetUtil.prototype = Object.extendsObject(PwdAjaxRequestProcessor, {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2016-06-24 18:43:59</sys_created_on>
         <sys_id>5076fc10d7102200c2f64187ed610363</sys_id>
-        <sys_mod_count>28</sys_mod_count>
+        <sys_mod_count>31</sys_mod_count>
         <sys_name>PasswordResetUtil</sys_name>
         <sys_package display_value="GHalo ITSM" source="bd441a2777030010ca3ab5b268106132">bd441a2777030010ca3ab5b268106132</sys_package>
         <sys_policy/>
         <sys_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</sys_scope>
         <sys_update_name>sys_script_include_5076fc10d7102200c2f64187ed610363</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2020-02-24 22:01:45</sys_updated_on>
+        <sys_updated_on>2020-02-24 22:12:43</sys_updated_on>
     </sys_script_include>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>170794273730000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_5076fc10d7102200c2f64187ed610363</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>GHalo ITSM</previous_claim_name>
+        <previous_claim_scope>bd441a2777030010ca3ab5b268106132</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:12:42</sys_created_on>
+        <sys_id>f0b81ae777030010ca3ab5b2681061fb</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:12:42</sys_updated_on>
+    </sys_claim>
 </record_update>

@@ -16,13 +16,27 @@ PasswordHistory.getDefaultHistoryLimit = function (){
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-10-19 23:02:05</sys_created_on>
         <sys_id>10bdb7570b310300d4682f15d6673aad</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>PasswordHistory</sys_name>
         <sys_package display_value="GHalo ITSM" source="bd441a2777030010ca3ab5b268106132">bd441a2777030010ca3ab5b268106132</sys_package>
         <sys_policy/>
         <sys_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</sys_scope>
         <sys_update_name>sys_script_include_10bdb7570b310300d4682f15d6673aad</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2020-02-24 22:01:28</sys_updated_on>
+        <sys_updated_on>2020-02-24 22:12:42</sys_updated_on>
     </sys_script_include>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>170794272e70000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_10bdb7570b310300d4682f15d6673aad</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>GHalo ITSM</previous_claim_name>
+        <previous_claim_scope>bd441a2777030010ca3ab5b268106132</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:12:42</sys_created_on>
+        <sys_id>b8b81ae777030010ca3ab5b268106114</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:12:42</sys_updated_on>
+    </sys_claim>
 </record_update>
