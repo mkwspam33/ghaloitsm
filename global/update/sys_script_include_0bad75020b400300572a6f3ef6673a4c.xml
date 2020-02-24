@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>global.PwdEnrollEmailProcessor</api_name>
+        <caller_access/>
+        <claim/>
+        <client_callable>false</client_callable>
+        <description>Password Reset Enrollment Processor for Email verification</description>
+        <name>PwdEnrollEmailProcessor</name>
+        <script><![CDATA[var PwdEnrollEmailProcessor = Class.create();
+/**
+ * Handles enrollment for Email.
+ */
+PwdEnrollEmailProcessor.prototype = {
+    category: 'password_reset.extension.enrollment_form_processor', // DO NOT REMOVE THIS LINE!
+
+    /**
+     * Init function.
+     */
+    initialize: function() {
+    },
+    
+    /**********
+    * Process the enrollment form, and returns a PwdExtensionScriptResponse object, which contains: result, message and value 
+    * 
+    * @param params.userId                            The sys-id of the user trying to enroll (table: sys_user)
+    * @param params.verificationId                    The sys-id of the verification to be enrolled into (table: pwd_verification)
+    * @param params.enrollmentId                      The sys-id of this enrollment process.
+	* 
+    * @param params.getFormParameter(<form element>)  Any of the form elements
+	* 
+    * @return a map with the attributes: 'result' and 'message' for example: {result: 'success', message : 'bla bla'}
+    **********/
+    process: function(params) {
+		// Email enrollment is handled using Ajax, before the form is submitted
+		// Need to check if the user has an enrolled email:
+		var gr = new GlideRecord('pwd_device');
+		gr.addQuery('status', 1);  // Status == 1 means Verified
+		var gc = gr.addJoinQuery('cmn_notif_device', 'device', 'sys_id');
+		gc.addCondition('user', params.userId);
+		gc.addCondition('type', "Email");
+		gr.query();
+		if (gr.hasNext()) {
+			return {result : 'success', message : gs.getMessage('Authorized the email successfully')};
+		} else {
+			return {result : 'fail', message : gs.getMessage('You must authorize at least one email')};
+		}		
+    },
+	
+    type: 'PwdEnrollEmailProcessor'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-07-20 16:30:46</sys_created_on>
+        <sys_id>0bad75020b400300572a6f3ef6673a4c</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>PwdEnrollEmailProcessor</sys_name>
+        <sys_package display_value="GHalo ITSM" source="bd441a2777030010ca3ab5b268106132">bd441a2777030010ca3ab5b268106132</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</sys_scope>
+        <sys_update_name>sys_script_include_0bad75020b400300572a6f3ef6673a4c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:37:51</sys_updated_on>
+    </sys_script_include>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>170795979e90000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_0bad75020b400300572a6f3ef6673a4c</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>GHalo ITSM</previous_claim_name>
+        <previous_claim_scope>bd441a2777030010ca3ab5b268106132</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:37:51</sys_created_on>
+        <sys_id>817e56eb77030010ca3ab5b268106175</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:37:51</sys_updated_on>
+    </sys_claim>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>170795979e00000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_0bad75020b400300572a6f3ef6673a4c</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>com.glideapp.password_reset</previous_claim_name>
+        <previous_claim_scope>com.glideapp.password_reset</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:37:51</sys_created_on>
+        <sys_id>457e56eb77030010ca3ab5b268106175</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:37:51</sys_updated_on>
+    </sys_claim>
+</record_update>

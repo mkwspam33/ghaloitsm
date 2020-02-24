@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>global.PasswordPolicyUtil</api_name>
+        <caller_access/>
+        <claim/>
+        <client_callable>true</client_callable>
+        <description/>
+        <name>PasswordPolicyUtil</name>
+        <script><![CDATA[var PasswordPolicyUtil = Class.create();
+PasswordPolicyUtil.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+    setPasswordPolicy: function(strength) {
+        var passwordPolicyGR = new GlideRecord("password_policy");
+        if (passwordPolicyGR.isValid()) {
+            passwordPolicyGR.get("3054afe6737a3300616ca9843cf6a735");
+            if ("high" == strength) {
+                this.setHighStrengthPasswordPolicy(passwordPolicyGR);
+            }
+            if ("medium" == strength) {
+                this.setMediumStrengthPasswordPolicy(passwordPolicyGR);
+            }
+            passwordPolicyGR.update();
+        }
+    },
+
+    setMediumStrengthPasswordPolicy: function(policyGR) {
+        policyGR.setValue('minimum_uppercase_characters', PasswordPolicyDefaults.medium_defaults.minimum_uppercase_characters);
+        policyGR.setValue('minimum_lowercase_characters', PasswordPolicyDefaults.medium_defaults.minimum_lowercase_characters);
+        policyGR.setValue('minimum_numeric_characters', PasswordPolicyDefaults.medium_defaults.minimum_numeric_characters);
+        policyGR.setValue('minimum_special_characters', PasswordPolicyDefaults.medium_defaults.minimum_special_characters);
+        policyGR.setValue('password_strength', 20);
+    },
+
+    setHighStrengthPasswordPolicy: function(policyGR) {
+        policyGR.setValue('minimum_uppercase_characters', PasswordPolicyDefaults.high_defaults.minimum_uppercase_characters);
+        policyGR.setValue('minimum_lowercase_characters', PasswordPolicyDefaults.high_defaults.minimum_lowercase_characters);
+        policyGR.setValue('minimum_numeric_characters', PasswordPolicyDefaults.high_defaults.minimum_numeric_characters);
+        policyGR.setValue('minimum_special_characters', PasswordPolicyDefaults.high_defaults.minimum_special_characters);
+        policyGR.setValue('password_strength', 30);
+
+    },
+
+    getPasswordPolicy: function() {
+        var passwordPolicyGR = new GlideRecord("password_policy");
+        if (passwordPolicyGR.isValid()) {
+            passwordPolicyGR.get("3054afe6737a3300616ca9843cf6a735");
+            var passwordStrength = passwordPolicyGR.getValue('password_strength');
+            if (passwordStrength == 20) {
+                return "medium";
+            } else if (passwordStrength == 30) {
+                return "high";
+            }
+        }
+        return null;
+    },
+
+    getDefaultStrength: function() {
+        return JSON.stringify(PasswordPolicyDefaults.default_defaults);
+    },
+
+    getMediumStrength: function() {
+        return JSON.stringify(PasswordPolicyDefaults.medium_defaults);
+    },
+
+    getHighStrength: function() {
+        return JSON.stringify(PasswordPolicyDefaults.high_defaults);
+    },
+    type: 'PasswordPolicyUtil'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-13 06:59:49</sys_created_on>
+        <sys_id>eba9be64531333009e33ddeeff7b128c</sys_id>
+        <sys_mod_count>23</sys_mod_count>
+        <sys_name>PasswordPolicyUtil</sys_name>
+        <sys_package display_value="GHalo ITSM" source="bd441a2777030010ca3ab5b268106132">bd441a2777030010ca3ab5b268106132</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</sys_scope>
+        <sys_update_name>sys_script_include_eba9be64531333009e33ddeeff7b128c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:36:35</sys_updated_on>
+    </sys_script_include>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>170795850b40000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_eba9be64531333009e33ddeeff7b128c</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>GHalo ITSM</previous_claim_name>
+        <previous_claim_scope>bd441a2777030010ca3ab5b268106132</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:36:35</sys_created_on>
+        <sys_id>2a2e92eb77030010ca3ab5b26810619a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:36:35</sys_updated_on>
+    </sys_claim>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>170795850ac0000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_eba9be64531333009e33ddeeff7b128c</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>com.glide.password_policy</previous_claim_name>
+        <previous_claim_scope>com.glide.password_policy</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:36:35</sys_created_on>
+        <sys_id>ea2e92eb77030010ca3ab5b26810619a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:36:35</sys_updated_on>
+    </sys_claim>
+</record_update>

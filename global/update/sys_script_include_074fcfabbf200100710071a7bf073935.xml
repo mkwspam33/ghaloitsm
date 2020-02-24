@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access/>
+        <active>true</active>
+        <api_name>global.PwdVerifySimpleProcessor</api_name>
+        <caller_access/>
+        <claim/>
+        <client_callable>false</client_callable>
+        <description>A verification processor extension that will only return true if the user sent "ok"</description>
+        <name>PwdVerifySimpleProcessor</name>
+        <script><![CDATA[var PwdVerifySimpleProcessor = Class.create();
+
+PwdVerifySimpleProcessor.prototype = {
+    category: 'password_reset.extension.verification_form_processor',   // DO NOT REMOVE THIS LINE!
+    
+    /**********
+     * Initialization stuff here...
+     **********/
+    initialize: function() {
+    },
+
+    /**********
+    * Process the verification form request, and return whether the user was successfully verified
+    * 
+    * @param params.resetRequestId The sys-id of the current password-reset request (table: pwd_reset_request)
+    * @param params.userId         The sys-id of the user trying to be verified (table: sys_user)
+    * @param params.verificationId The sys-id of the verification to be processed (table: pwd_verification)
+    * @param request               The form request object. fields in the form can be accessed using: request.getParameter('<element-id>')
+    * @return boolean telling whether the user is successfully verified
+    **********/
+    processForm: function(params, request) {
+        return this.verify(params.resetRequestId, params.userId, params.verificationId, request);
+    },
+    	
+    /*********
+     * verify - returns true/false whether the user is verified for this verification method.
+     *
+	 * since this is only a mock/sample verification processor, it will only return true if the user sent "ok" in the input field, otherwise, it will return false.
+     *
+     * Params: 
+	 * @enrolled_user_id
+	 * @verification
+	 * @request - the request object that was submitted by the user in the verification form
+     *********/
+    verify: function(reset_request_id, enrolled_user_id, verification, request) {
+		if (request.getParameter("sysparm_simple_input") == "ok")
+			return true;
+		else
+			return false;
+    },
+    
+    type: 'PwdVerifySimpleProcessor'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2013-04-11 17:20:27</sys_created_on>
+        <sys_id>074fcfabbf200100710071a7bf073935</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>PwdVerifySimpleProcessor</sys_name>
+        <sys_package display_value="GHalo ITSM" source="bd441a2777030010ca3ab5b268106132">bd441a2777030010ca3ab5b268106132</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</sys_scope>
+        <sys_update_name>sys_script_include_074fcfabbf200100710071a7bf073935</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:37:51</sys_updated_on>
+    </sys_script_include>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>1707959795b0000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_074fcfabbf200100710071a7bf073935</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>GHalo ITSM</previous_claim_name>
+        <previous_claim_scope>bd441a2777030010ca3ab5b268106132</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:37:51</sys_created_on>
+        <sys_id>457e56eb77030010ca3ab5b26810616d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:37:51</sys_updated_on>
+    </sys_claim>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="GHalo ITSM">bd441a2777030010ca3ab5b268106132</claim_owner_scope>
+        <claim_timestamp>170795979520000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_074fcfabbf200100710071a7bf073935</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>com.glideapp.password_reset</previous_claim_name>
+        <previous_claim_scope>com.glideapp.password_reset</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-24 22:37:51</sys_created_on>
+        <sys_id>097e56eb77030010ca3ab5b26810616d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-24 22:37:51</sys_updated_on>
+    </sys_claim>
+</record_update>
